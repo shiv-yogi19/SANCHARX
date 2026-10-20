@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SANCHARX — Network Intelligence &amp; Speed Test</title>
+<meta name="description" content="SANCHARX: real browser-based internet speed test, latency, jitter, DNS, IP and network tools. Created By Shiv Yogi.">
+<meta name="theme-color" content="#080B0A">
+<meta name="author" content="Shiv Yogi">
+<link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+
+<!-- SVG icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-report" viewBox="0 0 24 24"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM14 3v4h4M9 12h6M9 16h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="i-ai" viewBox="0 0 24 24"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 4v-4H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM9 10h.01M12 10h.01M15 10h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 15V6a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13M10 11v5M14 11v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- Branded introduction (shown once per session) -->
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="SANCHARX introduction" hidden>
+  <div class="intro-inner">
+    <div class="wordmark" aria-label="SANCHARX">
+      <span class="wm-letters"><b style="--i:0">S</b><b style="--i:1">A</b><b style="--i:2">N</b><b style="--i:3">C</b><b style="--i:4">H</b><b style="--i:5">A</b><b style="--i:6">R</b></span><span class="wm-x" aria-hidden="true">X</span>
+    </div>
+    <p class="intro-by">Created By Shiv Yogi</p>
+    <p class="intro-tag">CONNECT. MEASURE. CREATE.</p>
+    <button type="button" id="intro-skip" class="btn ghost small" data-i18n="intro.skip">Skip</button>
+  </div>
+</div>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="SANCHARX home"><span class="brand-word">SANCHAR<span class="brand-x">X</span></span><span class="brand-sub">Created By Shiv Yogi</span></a>
+  <nav class="topnav" aria-label="Primary">
+    <a href="#home" data-nav="home" data-i18n="nav.home">Home</a>
+    <a href="#tools" data-nav="tools" data-i18n="nav.tools">Network Tools</a>
+    <a href="#reports" data-nav="reports" data-i18n="nav.reports">Reports</a>
+    <a href="#ai" data-nav="ai" data-i18n="nav.ai">AI Assistant</a>
+  </nav>
+  <div class="top-actions">
+    <label class="visually-hidden" for="lang-select" data-i18n="settings.language">Language</label>
+    <select id="lang-select" class="select compact"><option value="en">English</option><option value="hi">हिन्दी</option></select>
+    <button type="button" id="btn-settings" class="icon-btn" data-i18n-aria="nav.settings" aria-label="Settings"><svg class="ico"><use href="#i-gear"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ===================== HOME ===================== -->
+<section id="view-home" class="view" data-view="home" aria-labelledby="h-home">
+  <h1 id="h-home" class="visually-hidden" data-i18n="home.title">SANCHARX speed test</h1>
+  <div class="grid-main">
+    <article class="card speed-card">
+      <div class="gauge-wrap">
+        <svg id="gauge" viewBox="0 0 260 260" role="img" aria-labelledby="gauge-label">
+          <title id="gauge-label" data-i18n="gauge.label">Speed gauge</title>
+          <circle class="ring-bg" cx="130" cy="130" r="120"/>
+          <circle id="ring" class="ring" cx="130" cy="130" r="120" transform="rotate(-90 130 130)"/>
+          <path class="arc-bg" d="M62.12 197.88 A96 96 0 1 1 197.88 197.88"/>
+          <path id="arc" class="arc" d="M62.12 197.88 A96 96 0 1 1 197.88 197.88"/>
+        </svg>
+        <div class="gauge-center">
+          <span id="g-phase" class="g-phase" data-i18n="gauge.idlePhase">Ready</span>
+          <output id="g-value" class="g-value" aria-live="off">0.0</output>
+          <span class="g-unit">Mbps</span>
+          <span id="g-progress" class="g-progress"></span>
+        </div>
+      </div>
+      <p id="state-msg" class="state-msg" role="status" aria-live="polite"><span class="state-dot" id="state-dot"></span><span id="state-text" data-i18n="state.idle">Idle</span></p>
+      <div class="controls">
+        <button type="button" id="btn-start" class="btn primary big" data-i18n="btn.start">Start Test</button>
+        <button type="button" id="btn-cancel" class="btn danger big" hidden data-i18n="btn.cancel">Cancel Test</button>
+      </div>
+      <div id="error-box" class="notice warn" role="alert" hidden></div>
+
+      <div class="metrics" aria-label="Results">
+        <div class="metric" id="m-down"><span class="m-label" data-i18n="m.down">Download</span><span class="m-val"><b data-val>—</b> <small>Mbps</small></span></div>
+        <div class="metric" id="m-up"><span class="m-label" data-i18n="m.up">Upload</span><span class="m-val"><b data-val>—</b> <small>Mbps</small></span></div>
+        <div class="metric" id="m-lat"><span class="m-label" data-i18n="m.lat">HTTP latency</span><span class="m-val"><b data-val>—</b> <small>ms</small></span><span class="m-sub" id="m-lat-sub"></span></div>
+        <div class="metric" id="m-jit"><span class="m-label" data-i18n="m.jit">Jitter estimate</span><span class="m-val"><b data-val>—</b> <small>ms</small></span></div>
+        <div class="metric wide" id="m-loss"><span class="m-label" data-i18n="m.loss">Packet loss</span><span class="m-val small-text" data-i18n="m.lossNA">Not measured by this browser test</span></div>
+      </div>
+      <dl class="meta-line">
+        <div><dt data-i18n="m.duration">Test duration</dt><dd id="r-duration">—</dd></div>
+        <div><dt data-i18n="m.time">Timestamp</dt><dd id="r-time">—</dd></div>
+        <div><dt data-i18n="m.status">Measurement status</dt><dd id="r-status">—</dd></div>
+      </dl>
+      <div class="controls wrap">
+        <button type="button" id="btn-save" class="btn" disabled data-i18n="btn.save">Save to history</button>
+        <button type="button" id="btn-report" class="btn" disabled data-i18n="btn.report">View report</button>
+        <button type="button" id="btn-help" class="btn accent" data-i18n="btn.help">Get Help to Improve Internet Speed</button>
+        <button type="button" id="btn-clear" class="btn ghost" disabled data-i18n="btn.clear">Clear Results</button>
+      </div>
+    </article>
+
+    <div class="col">
+      <article class="card graph-card">
+        <header class="card-h"><h2 data-i18n="graph.title">Live measurement graph</h2><span class="legend"><i class="lg dl"></i><span data-i18n="m.down">Download</span> <i class="lg ul"></i><span data-i18n="m.up">Upload</span></span></header>
+        <svg id="graph" viewBox="0 0 400 160" preserveAspectRatio="none" role="img" aria-label="Live throughput graph"><g class="grid-lines"></g><polyline id="g-dl" class="g-line dl" points=""/><polyline id="g-ul" class="g-line ul" points=""/></svg>
+        <p id="graph-empty" class="muted small" data-i18n="graph.empty">The graph fills with real measured samples while a test runs. Nothing is shown before then.</p>
+        <p class="muted small" data-i18n="graph.note">The graph shows measured throughput samples (Mbps). The outer ring on the gauge shows test progress, not speed.</p>
+      </article>
+
+      <article class="card conn-card">
+        <header class="card-h"><h2 data-i18n="conn.title">Connection intelligence</h2></header>
+        <dl class="kv" id="conn-list"></dl>
+        <p class="muted small" id="conn-note" data-i18n="conn.note">Values come from the browser Network Information API and are estimates. Not every browser supports it.</p>
+      </article>
+
+      <article class="card lab-card">
+        <header class="card-h"><h2 data-i18n="lab.title">Network Speed Lab</h2></header>
+        <p class="muted small" id="lab-note"></p>
+        <div class="table-scroll"><table class="table" id="lab-table"><thead><tr><th data-i18n="lab.metric">Metric</th><th data-i18n="lab.best">Best</th><th data-i18n="lab.avg">Average</th><th data-i18n="lab.worst">Worst</th></tr></thead><tbody></tbody></table></div>
+        <details class="how"><summary data-i18n="how.title">How this was measured</summary>
+          <ul class="plain">
+            <li data-i18n="how.latency">Latency: 10 repeated tiny HTTP requests; the median is shown. This is HTTP latency, not ICMP ping.</li>
+            <li data-i18n="how.jitter">Jitter: the average difference between consecutive latency samples. An estimate, not a carrier-grade measure.</li>
+            <li data-i18n="how.down">Download: real data streamed from speed.cloudflare.com in growing steps; bytes counted as they arrive.</li>
+            <li data-i18n="how.up">Upload: randomly generated data posted to speed.cloudflare.com. No personal files are ever uploaded.</li>
+            <li data-i18n="how.loss">Packet loss is not measured, because a browser cannot count lost packets reliably.</li>
+          </ul>
+        </details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TOOLS ===================== -->
+<section id="view-tools" class="view" data-view="tools" aria-labelledby="h-tools" hidden>
+  <h1 id="h-tools" class="section-title" data-i18n="tools.title">Network Tools</h1>
+  <div id="fav-bar" class="fav-bar" hidden><span class="muted small" data-i18n="tools.favs">Favorites</span><span id="fav-chips" class="chips"></span></div>
+  <div class="tool-tabs" role="tablist" aria-label="Network tools" id="tool-tabs">
+    <button role="tab" type="button" data-tool="stability" id="tab-stability" aria-controls="tool-stability" data-i18n="tool.stability">Stability Monitor</button>
+    <button role="tab" type="button" data-tool="troubleshoot" id="tab-troubleshoot" aria-controls="tool-troubleshoot" data-i18n="tool.troubleshoot">Troubleshooter</button>
+    <button role="tab" type="button" data-tool="calc" id="tab-calc" aria-controls="tool-calc" data-i18n="tool.calc">Data Calculator</button>
+    <button role="tab" type="button" data-tool="subnet" id="tab-subnet" aria-controls="tool-subnet" data-i18n="tool.subnet">IPv4 &amp; Subnet</button>
+    <button role="tab" type="button" data-tool="dns" id="tab-dns" aria-controls="tool-dns" data-i18n="tool.dns">DNS Lookup</button>
+    <button role="tab" type="button" data-tool="ip" id="tab-ip" aria-controls="tool-ip" data-i18n="tool.ip">Public IP</button>
+    <button role="tab" type="button" data-tool="endpoint" id="tab-endpoint" aria-controls="tool-endpoint" data-i18n="tool.endpoint">Endpoint Latency</button>
+    <button role="tab" type="button" data-tool="advisor" id="tab-advisor" aria-controls="tool-advisor" data-i18n="tool.advisor">Gaming &amp; Streaming</button>
+    <button role="tab" type="button" data-tool="safety" id="tab-safety" aria-controls="tool-safety" data-i18n="tool.safety">Safety Guide</button>
+    <span class="tab-indicator" aria-hidden="true"></span>
+  </div>
+
+  <!-- Stability -->
+  <article class="card tool-panel" id="tool-stability" role="tabpanel" aria-labelledby="tab-stability" data-tool-panel="stability" hidden>
+    <header class="card-h"><h2 data-i18n="tool.stability">Stability Monitor</h2><button type="button" class="fav-btn" data-fav="stability" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted" data-i18n="stab.intro">Sends one tiny request per second (up to 60) and tracks how latency varies. It stops when you leave this tool, hide the page, or press Stop.</p>
+    <div class="controls wrap"><button type="button" class="btn primary" id="stab-start" data-i18n="btn.startMonitor">Start monitoring</button><button type="button" class="btn danger" id="stab-stop" hidden data-i18n="btn.stop">Stop</button></div>
+    <svg id="stab-graph" class="mini-graph" viewBox="0 0 400 100" preserveAspectRatio="none" role="img" aria-label="Latency over time"><polyline id="stab-line" class="g-line dl" points=""/></svg>
+    <div class="metrics small-grid" id="stab-stats">
+      <div class="metric"><span class="m-label" data-i18n="stab.samples">Samples</span><span class="m-val"><b id="st-n">0</b></span></div>
+      <div class="metric"><span class="m-label" data-i18n="stab.median">Median</span><span class="m-val"><b id="st-med">—</b> <small>ms</small></span></div>
+      <div class="metric"><span class="m-label" data-i18n="stab.jitter">Jitter</span><span class="m-val"><b id="st-jit">—</b> <small>ms</small></span></div>
+      <div class="metric"><span class="m-label" data-i18n="stab.stdev">Std. dev.</span><span class="m-val"><b id="st-sd">—</b> <small>ms</small></span></div>
+      <div class="metric"><span class="m-label" data-i18n="stab.max">Max</span><span class="m-val"><b id="st-max">—</b> <small>ms</small></span></div>
+      <div class="metric"><span class="m-label" data-i18n="stab.failed">Failed requests</span><span class="m-val"><b id="st-fail">0</b></span></div>
+    </div>
+    <p class="verdict" id="stab-verdict" role="status" aria-live="polite"></p>
+    <p class="muted small" data-i18n="stab.thresholds">Thresholds (after 8 samples): Unstable if jitter &gt; 30 ms, std. dev. &gt; 50 ms or at least 10% of requests fail. Fair if jitter &gt; 15 ms, std. dev. &gt; 25 ms or any request fails.</p>
+  </article>
+
+  <!-- Troubleshooter -->
+  <article class="card tool-panel" id="tool-troubleshoot" role="tabpanel" aria-labelledby="tab-troubleshoot" data-tool-panel="troubleshoot" hidden>
+    <header class="card-h"><h2 data-i18n="tool.troubleshoot">Network Troubleshooter</h2><button type="button" class="fav-btn" data-fav="troubleshoot" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted" data-i18n="ts.intro">Pick what is wrong. Advice uses your latest completed measurement when one exists. It is rule-based and cannot inspect your router or devices.</p>
+    <label class="field"><span data-i18n="ts.issue">What is the problem?</span><select id="ts-issue" class="select"></select></label>
+    <div id="ts-out" class="out" aria-live="polite"></div>
+  </article>
+
+  <!-- Calculator -->
+  <article class="card tool-panel" id="tool-calc" role="tabpanel" aria-labelledby="tab-calc" data-tool-panel="calc" hidden>
+    <header class="card-h"><h2 data-i18n="tool.calc">Data &amp; Download Calculator</h2><button type="button" class="fav-btn" data-fav="calc" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted small" data-i18n="calc.units">Decimal units (kB, MB, GB = powers of 1000) and binary units (KiB, MiB, GiB = powers of 1024) are different. Times are ideal, without protocol overhead.</p>
+    <div class="calc-grid">
+      <fieldset class="sub"><legend data-i18n="calc.speed">Speed conversion</legend>
+        <label class="field"><span data-i18n="calc.value">Value</span><input id="c1-val" class="input" inputmode="decimal" autocomplete="off"></label>
+        <label class="field"><span data-i18n="calc.dir">Direction</span><select id="c1-dir" class="select"><option value="a">Mbps → MB/s</option><option value="b">MB/s → Mbps</option></select></label>
+        <output id="c1-out" class="out" aria-live="polite"></output>
+      </fieldset>
+      <fieldset class="sub"><legend data-i18n="calc.size">File size conversion</legend>
+        <label class="field"><span data-i18n="calc.value">Value</span><input id="c2-val" class="input" inputmode="decimal" autocomplete="off"></label>
+        <div class="row"><label class="field"><span data-i18n="calc.from">From</span><select id="c2-from" class="select unit-sel"></select></label><label class="field"><span data-i18n="calc.to">To</span><select id="c2-to" class="select unit-sel"></select></label></div>
+        <output id="c2-out" class="out" aria-live="polite"></output>
+      </fieldset>
+      <fieldset class="sub"><legend data-i18n="calc.time">Estimated transfer time</legend>
+        <div class="row"><label class="field"><span data-i18n="calc.fileSize">File size</span><input id="c3-size" class="input" inputmode="decimal" autocomplete="off"></label><label class="field"><span data-i18n="calc.unit">Unit</span><select id="c3-unit" class="select unit-sel"></select></label></div>
+        <label class="field"><span data-i18n="calc.speedMbps">Speed (Mbps)</span><input id="c3-speed" class="input" inputmode="decimal" autocomplete="off"></label>
+        <div class="controls wrap"><button type="button" class="btn small" id="c3-dl" data-i18n="calc.useDown">Use my download</button><button type="button" class="btn small" id="c3-ul" data-i18n="calc.useUp">Use my upload</button></div>
+        <output id="c3-out" class="out" aria-live="polite"></output>
+      </fieldset>
+      <fieldset class="sub"><legend data-i18n="calc.data">Data transferred</legend>
+        <label class="field"><span data-i18n="calc.speedMbps">Speed (Mbps)</span><input id="c4-speed" class="input" inputmode="decimal" autocomplete="off"></label>
+        <div class="row"><label class="field"><span data-i18n="calc.duration">Duration</span><input id="c4-dur" class="input" inputmode="decimal" autocomplete="off"></label><label class="field"><span data-i18n="calc.unit">Unit</span><select id="c4-unit" class="select"><option value="1">s</option><option value="60">min</option><option value="3600">h</option></select></label></div>
+        <output id="c4-out" class="out" aria-live="polite"></output>
+      </fieldset>
+    </div>
+  </article>
+
+  <!-- Subnet -->
+  <article class="card tool-panel" id="tool-subnet" role="tabpanel" aria-labelledby="tab-subnet" data-tool-panel="subnet" hidden>
+    <header class="card-h"><h2 data-i18n="tool.subnet">IPv4 Validator &amp; Subnet Calculator</h2><button type="button" class="fav-btn" data-fav="subnet" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <div class="row"><label class="field"><span data-i18n="sub.ip">IPv4 address</span><input id="sn-ip" class="input" placeholder="192.168.1.10" inputmode="decimal" autocomplete="off" spellcheck="false"></label><label class="field"><span data-i18n="sub.mask">Mask or CIDR</span><input id="sn-mask" class="input" placeholder="/24 or 255.255.255.0" autocomplete="off" spellcheck="false"></label></div>
+    <p id="sn-err" class="notice warn" role="alert" hidden></p>
+    <div class="table-scroll"><table class="table" id="sn-table" hidden><tbody></tbody></table></div>
+  </article>
+
+  <!-- DNS -->
+  <article class="card tool-panel" id="tool-dns" role="tabpanel" aria-labelledby="tab-dns" data-tool-panel="dns" hidden>
+    <header class="card-h"><h2 data-i18n="tool.dns">DNS Lookup</h2><button type="button" class="fav-btn" data-fav="dns" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted small" data-i18n="dns.note">Uses a public DNS-over-HTTPS resolver you choose. Results can differ from your router or provider because of caching and resolver behavior. Your private DNS settings are not visible to a web page.</p>
+    <div class="row"><label class="field grow"><span data-i18n="dns.domain">Domain name</span><input id="dns-domain" class="input" placeholder="example.com" autocomplete="off" spellcheck="false" autocapitalize="off"></label>
+    <label class="field"><span data-i18n="dns.type">Record type</span><select id="dns-type" class="select"><option>A</option><option>AAAA</option><option>CNAME</option><option>MX</option><option>NS</option><option>TXT</option></select></label>
+    <label class="field"><span data-i18n="dns.resolver">Resolver</span><select id="dns-resolver" class="select"><option value="cloudflare">Cloudflare</option><option value="google">Google</option></select></label></div>
+    <div class="controls"><button type="button" class="btn primary" id="dns-go" data-i18n="btn.lookup">Look up</button></div>
+    <div id="dns-out" class="out" aria-live="polite"></div>
+  </article>
+
+  <!-- Public IP -->
+  <article class="card tool-panel" id="tool-ip" role="tabpanel" aria-labelledby="tab-ip" data-tool-panel="ip" hidden>
+    <header class="card-h"><h2 data-i18n="tool.ip">Public IP Lookup</h2><button type="button" class="fav-btn" data-fav="ip" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted" data-i18n="ip.note">This contacts the external service ipify.org, which sees your public IP address in order to return it. Nothing is stored or sent anywhere else by SANCHARX. No location is looked up.</p>
+    <div class="controls"><button type="button" class="btn primary" id="ip-go" data-i18n="btn.ipLookup">Show my public IP</button></div>
+    <div id="ip-out" class="out" aria-live="polite"></div>
+  </article>
+
+  <!-- Endpoint -->
+  <article class="card tool-panel" id="tool-endpoint" role="tabpanel" aria-labelledby="tab-endpoint" data-tool-panel="endpoint" hidden>
+    <header class="card-h"><h2 data-i18n="tool.endpoint">HTTP Endpoint Latency Checker</h2><button type="button" class="fav-btn" data-fav="endpoint" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted small" data-i18n="ep.note">Measures how long a site takes to respond, using 3 requests. Browser security (CORS) hides the response, so only reachability and timing are known. A failed check is not proof that the site is down.</p>
+    <label class="field"><span data-i18n="ep.url">URL</span><input id="ep-url" class="input" placeholder="https://example.com" autocomplete="off" spellcheck="false" autocapitalize="off" inputmode="url"></label>
+    <label class="check"><input type="checkbox" id="ep-http"><span data-i18n="ep.allowHttp">Allow plain http:// (not recommended)</span></label>
+    <div class="controls"><button type="button" class="btn primary" id="ep-go" data-i18n="btn.check">Check</button></div>
+    <p id="ep-err" class="notice warn" role="alert" hidden></p>
+    <div id="ep-out" class="out" aria-live="polite"></div>
+  </article>
+
+  <!-- Advisor -->
+  <article class="card tool-panel" id="tool-advisor" role="tabpanel" aria-labelledby="tab-advisor" data-tool-panel="advisor" hidden>
+    <header class="card-h"><h2 data-i18n="tool.advisor">Gaming &amp; Streaming Advisor</h2><button type="button" class="fav-btn" data-fav="advisor" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted small" data-i18n="adv.note">Estimates from your latest measured values only. Real experience also depends on the service, your device, Wi-Fi conditions, server distance, congestion and other people using your connection. Nothing here is a guarantee.</p>
+    <div id="adv-out" class="adv-list"></div>
+  </article>
+
+  <!-- Safety -->
+  <article class="card tool-panel" id="tool-safety" role="tabpanel" aria-labelledby="tab-safety" data-tool-panel="safety" hidden>
+    <header class="card-h"><h2 data-i18n="tool.safety">Network Safety Guide</h2><button type="button" class="fav-btn" data-fav="safety" aria-pressed="false" data-i18n-aria="fav.toggle" aria-label="Favorite"><svg class="ico"><use href="#i-star"/></svg></button></header>
+    <p class="muted small" data-i18n="safe.note">Educational guidance only. SANCHARX does not scan networks or devices.</p>
+    <div id="safe-out"></div>
+  </article>
+</section>
+
+<!-- ===================== REPORTS ===================== -->
+<section id="view-reports" class="view" data-view="reports" aria-labelledby="h-reports" hidden>
+  <h1 id="h-reports" class="section-title" data-i18n="reports.title">Reports &amp; History</h1>
+  <div class="grid-main">
+    <article class="card">
+      <header class="card-h"><h2 data-i18n="hist.title">Test history</h2><button type="button" class="btn small ghost" id="hist-clear" data-i18n="hist.clearAll">Clear all</button></header>
+      <p class="notice info small" id="hist-note" data-i18n="hist.note">History is stored only in this browser. It disappears if you clear site data or use private browsing.</p>
+      <p id="hist-warn" class="notice warn" role="alert" hidden></p>
+      <div id="hist-trend" class="trend"></div>
+      <ul id="hist-list" class="hist-list"></ul>
+      <div id="hist-compare" class="compare" aria-live="polite"></div>
+    </article>
+    <article class="card">
+      <header class="card-h"><h2 data-i18n="rep.title">Report studio</h2></header>
+      <label class="field"><span data-i18n="rep.source">Report source</span><select id="rep-source" class="select"></select></label>
+      <div class="controls wrap">
+        <button type="button" class="btn primary" id="rep-print" data-i18n="btn.print">Print / Save as PDF</button>
+        <button type="button" class="btn" id="rep-copy" data-i18n="btn.copySummary">Copy summary</button>
+      </div>
+      <p class="muted small" data-i18n="rep.pdfNote">Choose “Save as PDF” as the destination in the print dialog. The file name is suggested as Speed-Test-Report_SANCHARX_Shiv-Yogi.</p>
+      <div id="report-sheet" class="report-sheet" aria-live="polite"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== AI ASSISTANT ===================== -->
+<section id="view-ai" class="view" data-view="ai" aria-labelledby="h-ai" hidden>
+  <h1 id="h-ai" class="section-title" data-i18n="ai.title">SANCHARX AI Assistant</h1>
+  <article class="card chat-card">
+    <p class="notice info small" data-i18n="ai.label">This assistant is rule-based, not a generative AI. It answers 50 predefined questions in English and Hindi and uses your latest test values where relevant. It does not use ChatGPT, Gemini, Claude or any other AI service.</p>
+    <div class="chat-tools">
+      <div id="ai-cats" class="chips" role="group" aria-label="Categories"></div>
+      <button type="button" class="btn small ghost" id="ai-clear" data-i18n="btn.clearChat">Clear chat</button>
+    </div>
+    <div id="chat-log" class="chat-log" role="log" aria-live="polite" tabindex="0"></div>
+    <div id="ai-suggest" class="suggest"></div>
+    <form id="chat-form" class="chat-form" autocomplete="off">
+      <label class="visually-hidden" for="chat-input" data-i18n="ai.inputLabel">Ask a question</label>
+      <input id="chat-input" class="input" type="text" maxlength="200" data-i18n-ph="ai.placeholder" placeholder="Type a question…">
+      <button type="submit" class="btn primary" data-i18n="btn.send">Send</button>
+    </form>
+  </article>
+</section>
+</main>
+
+<nav class="bottomnav" aria-label="Primary mobile">
+  <a href="#home" data-nav="home"><svg class="ico"><use href="#i-home"/></svg><span data-i18n="nav.homeShort">Home</span></a>
+  <a href="#tools" data-nav="tools"><svg class="ico"><use href="#i-tools"/></svg><span data-i18n="nav.toolsShort">Tools</span></a>
+  <a href="#reports" data-nav="reports"><svg class="ico"><use href="#i-report"/></svg><span data-i18n="nav.reportsShort">Reports</span></a>
+  <a href="#ai" data-nav="ai"><svg class="ico"><use href="#i-ai"/></svg><span data-i18n="nav.aiShort">AI</span></a>
+  <span class="nav-pill" aria-hidden="true"></span>
+</nav>
+
+<footer class="footer"><span>SANCHARX · Created By Shiv Yogi</span><span data-i18n="footer.tag">YOUR DIGITAL WORLD, REDEFINED.</span></footer>
+
+<!-- Settings -->
+<dialog id="dlg-settings" class="dialog" aria-labelledby="set-title">
+  <form method="dialog" class="dlg-body">
+    <header class="card-h"><h2 id="set-title" data-i18n="settings.title">Settings</h2><button class="icon-btn" value="close" data-i18n-aria="btn.close" aria-label="Close">✕</button></header>
+    <label class="field"><span data-i18n="settings.language">Language</span><select id="set-lang" class="select"><option value="en">English</option><option value="hi">हिन्दी</option></select></label>
+    <label class="field"><span data-i18n="settings.motion">Motion</span><select id="set-motion" class="select"><option value="auto" data-i18n="settings.motionAuto">Follow system</option><option value="reduce" data-i18n="settings.motionReduce">Reduce motion</option><option value="full" data-i18n="settings.motionFull">Full motion</option></select></label>
+    <label class="check"><input type="checkbox" id="set-autosave"><span data-i18n="settings.autosave">Save completed tests to history automatically</span></label>
+    <div class="controls wrap">
+      <button type="button" class="btn" id="set-clear-hist" data-i18n="settings.clearHist">Clear history</button>
+      <button type="button" class="btn danger" id="set-clear-all" data-i18n="settings.clearAll">Clear all saved data</button>
+    </div>
+    <details class="how"><summary data-i18n="settings.privacy">Privacy &amp; measurement information</summary>
+      <ul class="plain">
+        <li data-i18n="priv.1">No account, no analytics and no tracking. Test history and settings are kept only in this browser.</li>
+        <li data-i18n="priv.2">Speed test: requests go to speed.cloudflare.com (download, upload and latency).</li>
+        <li data-i18n="priv.3">DNS Lookup: requests go to the resolver you pick (Cloudflare or Google).</li>
+        <li data-i18n="priv.4">Public IP: a request goes to ipify.org only when you press the button.</li>
+        <li data-i18n="priv.5">Endpoint checker: requests go to the URL you enter.</li>
+        <li data-i18n="priv.6">Stored data can disappear if you clear site data or use private browsing.</li>
+      </ul>
+    </details>
+    <details class="how"><summary data-i18n="settings.about">About SANCHARX</summary>
+      <p class="muted small" data-i18n="about.text">SANCHARX is a static Network Intelligence and speed test website. CONNECT. MEASURE. CREATE. Created By Shiv Yogi.</p>
+    </details>
+    <details class="how"><summary data-i18n="settings.diag">Diagnostic information</summary>
+      <pre id="diag-out" class="diag"></pre>
+      <div class="controls wrap"><button type="button" class="btn small" id="diag-copy" data-i18n="btn.copy">Copy</button><a class="btn small" id="feedback-link" target="_blank" rel="noopener noreferrer" href="https://github.com/shiv-yogi19/SANCHARX/issues/new" data-i18n="btn.feedback">Send feedback (GitHub)</a></div>
+    </details>
+  </form>
+</dialog>
+
+<!-- Confirm -->
+<dialog id="dlg-confirm" class="dialog small-dlg" aria-labelledby="conf-title">
+  <form method="dialog" class="dlg-body">
+    <h2 id="conf-title" data-i18n="confirm.title">Are you sure?</h2>
+    <p id="conf-msg" class="muted"></p>
+    <div class="controls"><button class="btn ghost" value="cancel" data-i18n="btn.cancelDlg">Cancel</button><button class="btn danger" value="ok" id="conf-ok" data-i18n="btn.confirm">Confirm</button></div>
+  </form>
+</dialog>
+
+<div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/translations.js"></script>
+<script src="assets/js/speed-test.js"></script>
+<script src="assets/js/network-tools.js"></script>
+<script src="assets/js/history.js"></script>
+<script src="assets/js/faq-data.js"></script>
+<script src="assets/js/content-data.js"></script>
+<script src="assets/js/reports.js"></script>
+<script src="assets/js/assistant.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
