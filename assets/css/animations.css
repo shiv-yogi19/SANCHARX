@@ -1,0 +1,89 @@
+/* SANCHARX animations — 25 purposeful patterns tied to real UI state. Created By Shiv Yogi.
+   1 Logo Reveal | 2 Tricolor X | 3 Intro Fade+Scale | 4 Aurora Drift | 5 Glass Card Entrance | 6 Card Hover Glow
+   7 Button Press | 8 Navigation Transition | 9 Mobile Nav Indicator | 10 Gauge Sweep | 11 Progress Ring
+   12 Live Graph Drawing | 13 Count-Up (JS, app.js) | 14 Spinner | 15 Toast | 16 Modal | 17 Typing Indicator
+   18 Chat Message Entrance | 19 Report Preview | 20 Skeleton | 21 Copy Confirmation | 22 Favorite Toggle
+   23 Tooltip | 24 Settings Panel | 25 Reduced-Motion Alternative */
+
+/* 1 Logo reveal */
+.wm-letters b { opacity: 0; transform: translateY(14px); animation: letter-in .5s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * 70ms + 150ms); }
+@keyframes letter-in { to { opacity: 1; transform: none; } }
+/* 2 Tricolor X transformation: emerald X turns saffron / white / green */
+.wm-x { opacity: 0; transform: scale(.4) rotate(-90deg); animation: x-in .8s cubic-bezier(.2,.9,.3,1.2) .75s forwards; }
+@keyframes x-in { 0% { opacity: 0; transform: scale(.4) rotate(-90deg); filter: hue-rotate(0); } 60% { opacity: 1; transform: scale(1.12) rotate(8deg); } 100% { opacity: 1; transform: none; } }
+/* 3 Intro fade + scale */
+.intro-inner { animation: intro-in .7s ease both; }
+.intro.leaving { animation: intro-out .55s ease forwards; pointer-events: none; }
+.intro-by { opacity: 0; animation: fade-up .5s ease 1.3s forwards; }
+.intro-tag { opacity: 0; animation: fade-up .5s ease 1.7s forwards; }
+@keyframes intro-in { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes intro-out { to { opacity: 0; transform: scale(1.04); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* 4 Aurora drift (transform only; paused when the tab is hidden via .paused) */
+.aurora i:nth-child(1) { animation: drift-a 28s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { animation: drift-b 34s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { animation: drift-a 40s ease-in-out infinite alternate-reverse; }
+@keyframes drift-a { to { transform: translate(8vmax, 6vmax) scale(1.08); } }
+@keyframes drift-b { to { transform: translate(-7vmax, 5vmax) scale(1.1); } }
+body.paused .aurora i { animation-play-state: paused; }
+/* 5 Glass card entrance + 8 navigation transition (section enters on every route change) */
+.view.enter > .card, .view.enter .grid-main > .card, .view.enter .col > .card { animation: card-in .45s cubic-bezier(.2,.8,.2,1) both; }
+.view.enter .col > .card:nth-child(2) { animation-delay: 60ms; } .view.enter .col > .card:nth-child(3) { animation-delay: 120ms; }
+@keyframes card-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.tool-panel.enter { animation: card-in .3s ease both; }
+/* 6 Card hover glow */
+.card { transition: box-shadow .3s, border-color .3s; }
+@media (hover: hover) { .card:hover { border-color: var(--line-strong); box-shadow: 0 0 0 1px rgba(25,216,154,.12), 0 10px 40px -18px rgba(25,216,154,.45); } }
+/* 7 Button press feedback */
+.btn:active:not(:disabled), .chip:active, .icon-btn:active, .fav-btn:active { transform: scale(.96); }
+/* 9 Mobile navigation indicator */
+.nav-pill { transition: transform .35s cubic-bezier(.3,.8,.3,1); }
+/* 10 Gauge sweep is the transition on .arc (see styles.css); 11 progress ring is .ring's dashoffset transition */
+.state-msg.run .state-dot { animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: scale(1.6); opacity: .5; } }
+/* 12 Live graph drawing: lines grow with samples; on completion they sweep once */
+.g-line { stroke-dasharray: none; }
+.g-line.draw { animation: draw 1s ease-out; }
+@keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+/* 14 Spinner */
+.spinner { display: inline-block; width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2); border-top-color: var(--emerald); animation: spin .8s linear infinite; vertical-align: -3px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* 15 Toast */
+.toast { animation: toast-in .35s cubic-bezier(.2,.8,.2,1) both; }
+.toast.out { animation: toast-out .3s ease forwards; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(14px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+/* 16 Modal fade + scale, 24 settings panel slide */
+.dialog[open] { animation: modal-in .28s cubic-bezier(.2,.8,.2,1); }
+.dialog[open]::backdrop { animation: fade-in .28s ease; }
+#dlg-settings[open] { animation: panel-in .35s cubic-bezier(.2,.8,.2,1); }
+@keyframes modal-in { from { opacity: 0; transform: scale(.94) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes panel-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+/* 17 Typing indicator, 18 chat message entrance */
+.typing i { animation: bounce 1s ease-in-out infinite; } .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%, 60%, 100% { transform: none; opacity: .5; } 30% { transform: translateY(-5px); opacity: 1; } }
+.msg { animation: msg-in .3s ease both; }
+@keyframes msg-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+/* 19 Report preview transition */
+.report-sheet.refresh { animation: report-in .5s ease both; }
+@keyframes report-in { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+/* 20 Skeleton loading */
+.skeleton { background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.05) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+/* 21 Copy confirmation */
+.copied { animation: copied .6s ease; border-color: var(--emerald) !important; color: var(--emerald) !important; }
+@keyframes copied { 0% { transform: scale(1); } 30% { transform: scale(1.06); } 100% { transform: scale(1); } }
+/* 22 Favorite toggle */
+.fav-btn.pop svg { animation: star-pop .45s cubic-bezier(.2,1.6,.4,1); }
+@keyframes star-pop { 0% { transform: scale(.6) rotate(-20deg); } 70% { transform: scale(1.3) rotate(8deg); } 100% { transform: none; } }
+/* 23 Tooltip */
+.icon-btn::after, .fav-btn::after { content: attr(aria-label); position: absolute; top: calc(100% + 6px); right: 0; white-space: nowrap; background: #121c18; border: 1px solid var(--line); color: var(--text); font-size: .72rem; padding: 4px 8px; border-radius: 8px; opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity .2s, transform .2s; z-index: 80; }
+.fav-btn { position: relative; }
+@media (hover: hover) { .icon-btn:hover::after, .fav-btn:hover::after, .icon-btn:focus-visible::after, .fav-btn:focus-visible::after { opacity: 1; transform: none; } }
+
+/* 25 Reduced-motion alternative: instant state changes, static content stays fully readable */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) *, html:not([data-motion="full"]) *::before, html:not([data-motion="full"]) *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
